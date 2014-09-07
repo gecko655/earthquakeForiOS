@@ -13,18 +13,20 @@ import SwifteriOS
 class MainViewController: UITableViewController{
     
     var swifter: Swifter? = nil
-    var statuses: [JSONValue]? = nil
+    var statuses: [JSONValue]? = []
     
     @IBOutlet var urlTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
         swifter!.getStatusesHomeTimelineWithCount(20, sinceID: nil, maxID: nil, trimUser: false, contributorDetails: false, includeEntities: true, success:{
                 (statuses: [JSONValue]?) in
                 self.statuses = statuses
             self.tableView.reloadData()
             }
             , failure: nil)
+        */
     }
     
     override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
@@ -37,7 +39,7 @@ class MainViewController: UITableViewController{
     override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         let reuseIdentifier = "mainCell"
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel.text = statuses![indexPath.row]["text"].string
+        cell.textLabel.text = statuses![indexPath.row].string
         return cell
     }
     @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
@@ -58,9 +60,10 @@ class MainViewController: UITableViewController{
         if(statusId != nil){
         
         swifter?.getStatusesShowWithID(statusId!, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
-            {(status: Dictionary<String, JSONValue>?) in
-                print(status)
-                return
+            {status in
+                print(status!["text"]!)
+                self.statuses!.append(status!["text"]!)
+                self.tableView.reloadData()
             }
             , failure: failureHandler)
 
