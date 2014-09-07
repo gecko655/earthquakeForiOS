@@ -13,7 +13,7 @@ import SwifteriOS
 class MainViewController: UITableViewController{
     
     var swifter: Swifter? = nil
-    var statuses: [JSONValue]? = []
+    var statuses: [Dictionary<String,JSONValue>]? = []
     
     @IBOutlet var urlTextField: UITextField!
     
@@ -39,8 +39,12 @@ class MainViewController: UITableViewController{
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseIdentifier = "mainCell"
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel!.text = statuses![indexPath.row].string
+        cell.textLabel!.text = statuses![indexPath.row]["text"]!.string
         return cell
+    }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let status = statuses![indexPath.row]
+        print(status["id"]!)
     }
     @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
         fetchStatus(self.urlTextField.text)
@@ -62,13 +66,14 @@ class MainViewController: UITableViewController{
         swifter?.getStatusesShowWithID(statusId!, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
             {status in
                 print(status!["text"]!)
-                self.statuses!.append(status!["text"]!)
+                self.statuses!.append(status!)
                 self.tableView.reloadData()
             }
             , failure: failureHandler)
 
       }
     }
+    
     func alertWithTitle(title: String, message: String) {
         var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
