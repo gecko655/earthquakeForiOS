@@ -50,23 +50,23 @@ class ViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(self.twitterAccounts == nil){
             return 0
         }
         return self.twitterAccounts!.count
     }
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellIdentifier = "Cell"
-        let cell :UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UITableViewCell?
-        
+        let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UITableViewCell
+    
         
         let acAccount = self.twitterAccounts![indexPath.row] as ACAccount
-        cell!.textLabel.text = acAccount.accountDescription
+        cell.textLabel!.text = acAccount.accountDescription
         
-        return cell!
+        return cell
         
     }
     
@@ -76,9 +76,9 @@ class ViewController: UITableViewController {
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         let indexPath = self.tableView.indexPathForSelectedRow()
-        let twitterAccount = self.twitterAccounts![indexPath.row]
+        let twitterAccount = self.twitterAccounts![indexPath!.row]
         self.swifter = Swifter(account: twitterAccount)
         let mainViewController :MainViewController = segue.destinationViewController as MainViewController
         mainViewController.swifter = self.swifter

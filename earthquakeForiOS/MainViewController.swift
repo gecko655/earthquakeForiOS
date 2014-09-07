@@ -29,17 +29,17 @@ class MainViewController: UITableViewController{
         */
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(self.statuses == nil){
             return 0
         }
         return self.statuses!.count
     }
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseIdentifier = "mainCell"
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel.text = statuses![indexPath.row].string
+        cell.textLabel!.text = statuses![indexPath.row].string
         return cell
     }
     @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
@@ -49,7 +49,7 @@ class MainViewController: UITableViewController{
     func fetchStatus(url: String){
         let pattern = "https://twitter.com/[^/]*/status.*/(\\d{1,20})";
         let regex: NSRegularExpression = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil)!
-        let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url))).rangeAtIndex(1).toRange()
+        let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))!.rangeAtIndex(1).toRange()
         let statusId = url[resultRange!].toInt()
 
         let failureHandler: ((NSError) -> Void) = {
