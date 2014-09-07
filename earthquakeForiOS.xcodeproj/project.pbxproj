@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C3B8FB6819BC40FA004C441F /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D81C9519BB520000B276BE /* SwifteriOS.framework */; };
+		C3B8FB6A19BC4BF0004C441F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B8FB6919BC4BF0004C441F /* MainViewController.swift */; };
 		C3D81C6B19BB51EF00B276BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D81C6A19BB51EF00B276BE /* AppDelegate.swift */; };
 		C3D81C6E19BB51EF00B276BE /* earthquakeForiOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C3D81C6C19BB51EF00B276BE /* earthquakeForiOS.xcdatamodeld */; };
 		C3D81C7019BB51EF00B276BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D81C6F19BB51EF00B276BE /* ViewController.swift */; };
@@ -23,9 +25,45 @@
 			remoteGlobalIDString = C3D81C6419BB51EF00B276BE;
 			remoteInfo = earthquakeForiOS;
 		};
+		C3D81C9219BB520000B276BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B300C1F1944AA1A00993175;
+			remoteInfo = SwifterDemoiOS;
+		};
+		C3D81C9419BB520000B276BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B9F50EE1944A5AB00894629;
+			remoteInfo = SwifteriOS;
+		};
+		C3D81C9619BB520000B276BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B9F51131944A61D00894629;
+			remoteInfo = SwifterMac;
+		};
+		C3D81C9819BB520000B276BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B300C471944AECB00993175;
+			remoteInfo = SwifterDemoMac;
+		};
+		C3D81C9A19BB520000B276BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B300C5A1944AECB00993175;
+			remoteInfo = SwifterDemoMacTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C3B8FB6919BC4BF0004C441F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C3D81C6519BB51EF00B276BE /* earthquakeForiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = earthquakeForiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D81C6919BB51EF00B276BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3D81C6A19BB51EF00B276BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +74,7 @@
 		C3D81C7A19BB51F000B276BE /* earthquakeForiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = earthquakeForiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D81C7F19BB51F000B276BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3D81C8019BB51F000B276BE /* earthquakeForiOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = earthquakeForiOSTests.swift; sourceTree = "<group>"; };
+		C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../earthquakeForSwift/Swifter.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3B8FB6819BC40FA004C441F /* SwifteriOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +99,7 @@
 		C3D81C5C19BB51EF00B276BE = {
 			isa = PBXGroup;
 			children = (
+				C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */,
 				C3D81C6719BB51EF00B276BE /* earthquakeForiOS */,
 				C3D81C7D19BB51F000B276BE /* earthquakeForiOSTests */,
 				C3D81C6619BB51EF00B276BE /* Products */,
@@ -83,6 +124,7 @@
 				C3D81C7419BB51EF00B276BE /* Images.xcassets */,
 				C3D81C6C19BB51EF00B276BE /* earthquakeForiOS.xcdatamodeld */,
 				C3D81C6819BB51EF00B276BE /* Supporting Files */,
+				C3B8FB6919BC4BF0004C441F /* MainViewController.swift */,
 			);
 			path = earthquakeForiOS;
 			sourceTree = "<group>";
@@ -110,6 +152,18 @@
 				C3D81C7F19BB51F000B276BE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C3D81C8B19BB520000B276BE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3D81C9319BB520000B276BE /* SwifterDemoiOS.app */,
+				C3D81C9519BB520000B276BE /* SwifteriOS.framework */,
+				C3D81C9719BB520000B276BE /* SwifterMac.framework */,
+				C3D81C9919BB520000B276BE /* SwifterDemoMac.app */,
+				C3D81C9B19BB520000B276BE /* SwifterDemoMacTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +233,12 @@
 			mainGroup = C3D81C5C19BB51EF00B276BE;
 			productRefGroup = C3D81C6619BB51EF00B276BE /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C3D81C8B19BB520000B276BE /* Products */;
+					ProjectRef = C3D81C8A19BB520000B276BE /* Swifter.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C3D81C6419BB51EF00B276BE /* earthquakeForiOS */,
@@ -186,6 +246,44 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C3D81C9319BB520000B276BE /* SwifterDemoiOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SwifterDemoiOS.app;
+			remoteRef = C3D81C9219BB520000B276BE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3D81C9519BB520000B276BE /* SwifteriOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwifteriOS.framework;
+			remoteRef = C3D81C9419BB520000B276BE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3D81C9719BB520000B276BE /* SwifterMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwifterMac.framework;
+			remoteRef = C3D81C9619BB520000B276BE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3D81C9919BB520000B276BE /* SwifterDemoMac.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SwifterDemoMac.app;
+			remoteRef = C3D81C9819BB520000B276BE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3D81C9B19BB520000B276BE /* SwifterDemoMacTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwifterDemoMacTests.xctest;
+			remoteRef = C3D81C9A19BB520000B276BE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C3D81C6319BB51EF00B276BE /* Resources */ = {
@@ -214,6 +312,7 @@
 				C3D81C7019BB51EF00B276BE /* ViewController.swift in Sources */,
 				C3D81C6E19BB51EF00B276BE /* earthquakeForiOS.xcdatamodeld in Sources */,
 				C3D81C6B19BB51EF00B276BE /* AppDelegate.swift in Sources */,
+				C3B8FB6A19BC4BF0004C441F /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +500,7 @@
 				C3D81C8619BB51F000B276BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C3D81C8719BB51F000B276BE /* Build configuration list for PBXNativeTarget "earthquakeForiOSTests" */ = {
 			isa = XCConfigurationList;
@@ -409,6 +509,7 @@
 				C3D81C8919BB51F000B276BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
