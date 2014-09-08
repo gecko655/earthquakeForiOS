@@ -15,6 +15,7 @@ class MainViewController: UITableViewController{
     var swifter: Swifter? = nil
     var statuses: [Dictionary<String,JSONValue>]? = []
     
+    
     @IBOutlet var urlTextField: UITextField!
     
     override func viewDidLoad() {
@@ -44,7 +45,18 @@ class MainViewController: UITableViewController{
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let status = statuses![indexPath.row]
-        print(status["id"]!)
+        let failureHandler: ((NSError) -> Void) = {
+            error in
+
+            self.alertWithTitle("Error", message: error.localizedDescription)
+        }
+        swifter?.postStatusRetweetWithID(status["id"]!.integer!, trimUser: false, success: {
+            status in
+            let text = "text"
+            let user = "user"
+            let screen_name = "screen_name"
+            self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status![text]) by \(status![user]![screen_name].string!)")
+        }, failure: failureHandler)
     }
     @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
         fetchStatus(self.urlTextField.text)
@@ -55,17 +67,16 @@ class MainViewController: UITableViewController{
         let regex: NSRegularExpression = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil)!
         let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))!.rangeAtIndex(1).toRange()
         let statusId = url[resultRange!].toInt()
-
         let failureHandler: ((NSError) -> Void) = {
             error in
 
             self.alertWithTitle("Error", message: error.localizedDescription)
         }
+
         if(statusId != nil){
         
         swifter?.getStatusesShowWithID(statusId!, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
             {status in
-                print(status!["text"]!)
                 self.statuses!.append(status!)
                 self.tableView.reloadData()
             }
