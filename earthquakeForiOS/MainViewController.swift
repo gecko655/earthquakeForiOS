@@ -9,48 +9,44 @@
 import Foundation
 import UIKit
 import SwifteriOS
+import CoreData
 
 class MainViewController: UITableViewController{
     
     var swifter: Swifter? = nil
-    var statuses: [Dictionary<String,JSONValue>]? = []
+    var statuses: [(id: Int, text: String)] = []
     
     
     @IBOutlet var urlTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        swifter!.getStatusesHomeTimelineWithCount(20, sinceID: nil, maxID: nil, trimUser: false, contributorDetails: false, includeEntities: true, success:{
-                (statuses: [JSONValue]?) in
-                self.statuses = statuses
-            self.tableView.reloadData()
-            }
-            , failure: nil)
-        */
+        let statusesLoad = loadStatuses()
+        for status in statusesLoad{
+            statuses.append(status)
+        }
+        self.tableView.reloadData()
+        
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(self.statuses == nil){
-            return 0
-        }
-        return self.statuses!.count
+        return self.statuses.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseIdentifier = "mainCell"
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel!.text = statuses![indexPath.row]["text"]!.string
+        cell.textLabel!.text = statuses[indexPath.row].text
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let status = statuses![indexPath.row]
+        let status = statuses[indexPath.row]
         let failureHandler: ((NSError) -> Void) = {
             error in
 
             self.alertWithTitle("Error", message: error.localizedDescription)
         }
-        swifter?.postStatusRetweetWithID(status["id"]!.integer!, trimUser: false, success: {
+        swifter?.postStatusRetweetWithID(status.id, trimUser: false, success: {
             status in
             let text = "text"
             let user = "user"
@@ -77,12 +73,42 @@ class MainViewController: UITableViewController{
         
         swifter?.getStatusesShowWithID(statusId!, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
             {status in
-                self.statuses!.append(status!)
+                let s = (id: status!["id"]!.integer!, text: status!["text"]!.string!)
+                self.statuses.append(s)
                 self.tableView.reloadData()
+                self.saveStatus(status!)
             }
             , failure: failureHandler)
 
       }
+    }
+    
+    func loadStatuses () -> [(id: Int,text: String)]{
+        var ret:[(id: Int,text: String)] = []
+        let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let context = appDel.managedObjectContext!
+        let request = NSFetchRequest(entityName: "Statuses")
+        request.returnsObjectsAsFaults = false
+
+        let result = context.executeFetchRequest(request, error: nil)
+        if(result != nil || !(result!.isEmpty)){
+            for res in result! as [NSManagedObject]{
+                let id = res.valueForKey("id") as Int
+                let text = res.valueForKey("text") as String
+                let status = (id: id,text: text)
+                ret.append(status)
+            }
+        }
+        return ret
+    }
+    
+    func saveStatus(status: Dictionary<String,JSONValue>){
+        let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let context = appDel.managedObjectContext!
+        let entity = NSEntityDescription.insertNewObjectForEntityForName("Statuses", inManagedObjectContext: context) as NSManagedObject
+        entity.setValue(status["id"]!.integer!, forKey: "id")
+        entity.setValue(status["text"]!.string!, forKey: "text")
+        context.save(nil)
     }
     
     func alertWithTitle(title: String, message: String) {
