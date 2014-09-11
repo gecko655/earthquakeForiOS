@@ -11,5 +11,6 @@ import UIKit
 import SwifteriOS
 
 class StatusCell: UITableViewCell{
+    @IBOutlet var statusText: UILabel!
     
 }
