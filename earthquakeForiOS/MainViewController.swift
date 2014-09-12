@@ -40,19 +40,37 @@ class MainViewController: UITableViewController{
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let text = "text"
+        let user = "user"
+        let screen_name = "screen_name"
         let status = statuses[indexPath.row]
         let failureHandler: ((NSError) -> Void) = {
             error in
 
             self.alertWithTitle("Error", message: error.localizedDescription)
         }
-        swifter?.postStatusRetweetWithID(status.id, trimUser: false, success: {
-            status in
-            let text = "text"
-            let user = "user"
-            let screen_name = "screen_name"
-            self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status![text]) by \(status![user]![screen_name].string!)")
-        }, failure: failureHandler)
+        swifter!.getStatusesShowWithID(status.id, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
+            statusFetched in
+            println(statusFetched)
+            if(statusFetched!["retweeted"]!.integer! != 0){
+                let id = statusFetched!["current_user_retweet"]!["id"].integer!
+                self.swifter!.postStatusesDestroyWithID(id, trimUser: false, success:{
+                    json in
+                    self.swifter!.postStatusRetweetWithID(status.id, trimUser: false, success: {
+                        status in
+                        self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status![text]) by \(status![user]![screen_name].string!)")
+                        }, failure: failureHandler)
+                    
+                    }, failure: failureHandler)
+            }else{
+                self.swifter!.postStatusRetweetWithID(status.id, trimUser: false, success: {
+                    status in
+                    self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status![text]) by \(status![user]![screen_name].string!)")
+                    }, failure: failureHandler)
+            }
+            
+            
+            }, failure: failureHandler)
     }
     @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
         fetchStatus(self.urlTextField.text)

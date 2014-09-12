@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-823" y="169"/>
         </scene>
-        <!--View Controller-->
+        <!--Choose twitter account-->
         <scene sceneID="roJ-1e-XT7">
             <objects>
                 <tableViewController autoresizesArchivedViewToFullSize="NO" id="8QY-8R-hqi" customClass="ViewController" customModule="earthquakeForiOS" customModuleProvider="target" sceneMemberID="viewController">
@@ -49,13 +49,13 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <navigationItem key="navigationItem" id="bfk-vc-hut"/>
+                    <navigationItem key="navigationItem" title="Choose twitter account" id="bfk-vc-hut"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jab-bu-OFL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="95" y="169"/>
         </scene>
-        <!--Main View Controller-->
+        <!--Retweet launcher-->
         <scene sceneID="8Le-xV-XXx">
             <objects>
                 <tableViewController id="Jai-Hb-E97" customClass="MainViewController" customModule="earthquakeForiOS" customModuleProvider="target" sceneMemberID="viewController">
@@ -67,8 +67,9 @@
                             <rect key="frame" x="0.0" y="64" width="600" height="86"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" clipsSubviews="YES" tag="333" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d3G-ol-2XT">
+                                <textField opaque="NO" clipsSubviews="YES" tag="333" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tweet URL" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d3G-ol-2XT">
                                     <rect key="frame" x="8" y="48" width="584" height="30"/>
+                                    <accessibility key="accessibilityConfiguration" hint="" label=""/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -84,7 +85,7 @@
                                         <action selector="urlButtonClicked:forEvent:" destination="Jai-Hb-E97" eventType="touchUpInside" id="faG-e4-Hgw"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input the URL of the tweet" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pzn-eC-c4n">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Register tweet to retweet" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pzn-eC-c4n">
                                     <rect key="frame" x="8" y="12" width="203" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -144,6 +145,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Retweet launcher" id="dfo-g3-M1n"/>
                     <connections>
                         <outlet property="urlTextField" destination="d3G-ol-2XT" id="50K-Wt-ITS"/>
                     </connections>
