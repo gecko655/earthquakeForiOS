@@ -104,7 +104,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mainCell" rowHeight="63" id="iYQ-6F-3FU" customClass="StatusCell" customModule="earthquakeForiOS" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="statusCell" rowHeight="63" id="iYQ-6F-3FU" customClass="StatusCell" customModule="earthquakeForiOS" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iYQ-6F-3FU" id="mK4-Cp-Bxf">
                                     <autoresizingMask key="autoresizingMask"/>

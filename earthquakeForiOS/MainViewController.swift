@@ -16,13 +16,15 @@ class MainViewController: UITableViewController{
     var swifter: Swifter? = nil
     var statuses: [Status] = []
     
+    func failureHandler(error: NSError) -> Void {
+        alertWithTitle("Error", message: error.localizedDescription)
+    }
     
     @IBOutlet var urlTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let statusesLoad = loadStatuses()
-        for status in statusesLoad{
+        for status in loadStatuses(){
             statuses.append(status)
         }
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
@@ -35,18 +37,13 @@ class MainViewController: UITableViewController{
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let reuseIdentifier = "mainCell"
+        let reuseIdentifier = "statusCell"
         let cell: StatusCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as StatusCell
         cell.reflect(statuses[indexPath.row])
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let status = statuses[indexPath.row]
-        let failureHandler: ((NSError) -> Void) = {
-            error in
-
-            self.alertWithTitle("Error", message: error.localizedDescription)
-        }
         swifter!.getStatusesShowWithID(status.id, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
             jsonFetched in
             if(jsonFetched!["retweeted"]!.integer! != 0){
@@ -57,15 +54,15 @@ class MainViewController: UITableViewController{
                         json in
                         let status = Status.getStatus(json!)
                         self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
-                        }, failure: failureHandler)
+                        }, failure: self.failureHandler)
                     
-                    }, failure: failureHandler)
+                    }, failure: self.failureHandler)
             }else{
                 self.swifter!.postStatusRetweetWithID(status.id, trimUser: false, success: {
                     json in
                     let status = Status.getStatus(json!)
                     self.alertWithTitle("Retweeted", message: "Retweeted the tweet:\n\(status.text)")
-                    }, failure: failureHandler)
+                    }, failure: self.failureHandler)
             }
             
             
@@ -90,11 +87,6 @@ class MainViewController: UITableViewController{
         let regex: NSRegularExpression = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil)!
         let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))!.rangeAtIndex(1).toRange()
         let statusId = url[resultRange!].toInt()
-        let failureHandler: ((NSError) -> Void) = {
-            error in
-
-            self.alertWithTitle("Error", message: error.localizedDescription)
-        }
 
         if(statusId != nil){
         

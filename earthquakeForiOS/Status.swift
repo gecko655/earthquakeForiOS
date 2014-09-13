@@ -20,6 +20,8 @@ class Status: NSManagedObject {
     @NSManaged var user_name: String
     @NSManaged var user_screenname: String
     
+    var statusJSON:Dictionary<String,JSON>?
+    
     class func getStatus(json: Dictionary<String,JSON>) -> Status{
         let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
         let context = appDel.managedObjectContext!
@@ -29,6 +31,7 @@ class Status: NSManagedObject {
         return status
     }
     func setJSON(json: Dictionary<String,JSON>){
+        statusJSON = json
         id = json["id"]!.integer!
         text = json["text"]!.string!
         user_screenname = json["user"]!["screen_name"].string!
