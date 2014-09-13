@@ -25,6 +25,7 @@ class MainViewController: UITableViewController{
         for status in statusesLoad{
             statuses.append(status)
         }
+        self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.tableView.reloadData()
         
     }
@@ -71,6 +72,16 @@ class MainViewController: UITableViewController{
             
             
             }, failure: failureHandler)
+    }
+
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            deleteStatus(self.statuses[indexPath.row])
+            self.statuses.removeAtIndex(indexPath.row)
+            
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        } else if (editingStyle == UITableViewCellEditingStyle.Insert) {
+        }
     }
     @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
         fetchStatus(self.urlTextField.text)
@@ -126,6 +137,16 @@ class MainViewController: UITableViewController{
         let entity = NSEntityDescription.insertNewObjectForEntityForName("Statuses", inManagedObjectContext: context) as NSManagedObject
         entity.setValue(status["id"]!.integer!, forKey: "id")
         entity.setValue(status["text"]!.string!, forKey: "text")
+        context.save(nil)
+    }
+    
+    func deleteStatus(status: (id: Int, text: String)){
+        let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let context = appDel.managedObjectContext!
+        let entity = NSManagedObject.alloc()
+        entity.setValue(status.id, forKey: "id")
+        entity.setValue(status.text, forKey: "text")
+        context.deleteObject(entity)
         context.save(nil)
     }
     
