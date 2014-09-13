@@ -41,9 +41,6 @@ class MainViewController: UITableViewController{
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let text = "text"
-        let user = "user"
-        let screen_name = "screen_name"
         let status = statuses[indexPath.row]
         let failureHandler: ((NSError) -> Void) = {
             error in
@@ -51,21 +48,23 @@ class MainViewController: UITableViewController{
             self.alertWithTitle("Error", message: error.localizedDescription)
         }
         swifter!.getStatusesShowWithID(status.id, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
-            statusFetched in
-            if(statusFetched!["retweeted"]!.integer! != 0){
-                let id = statusFetched!["current_user_retweet"]!["id"].integer!
+            jsonFetched in
+            if(jsonFetched!["retweeted"]!.integer! != 0){
+                let id = jsonFetched!["current_user_retweet"]!["id"].integer!
                 self.swifter!.postStatusesDestroyWithID(id, trimUser: false, success:{
                     json in
                     self.swifter!.postStatusRetweetWithID(status.id, trimUser: false, success: {
-                        status in
-                        self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status![text]) by \(status![user]![screen_name].string!)")
+                        json in
+                        let status = Status.getStatus(json!)
+                        self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
                         }, failure: failureHandler)
                     
                     }, failure: failureHandler)
             }else{
                 self.swifter!.postStatusRetweetWithID(status.id, trimUser: false, success: {
-                    status in
-                    self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status![text]) by \(status![user]![screen_name].string!)")
+                    json in
+                    let status = Status.getStatus(json!)
+                    self.alertWithTitle("Retweeted", message: "Retweeted the tweet:\n\(status.text)")
                     }, failure: failureHandler)
             }
             
@@ -101,11 +100,7 @@ class MainViewController: UITableViewController{
         
         swifter?.getStatusesShowWithID(statusId!, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
             {json in
-                let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
-                let context = appDel.managedObjectContext!
-                let entity = NSEntityDescription.entityForName("Status", inManagedObjectContext: context)
-                let status = Status(entity: entity!, insertIntoManagedObjectContext: nil)
-                status.setJSON(json!)
+                let status = Status.getStatus(json!)
                 self.statuses.append(status)
                 self.tableView.reloadData()
                 self.saveStatus(status)
