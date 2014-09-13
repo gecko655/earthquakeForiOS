@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C33F447D19C3EB27000DED51 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F447C19C3EB27000DED51 /* Status.swift */; };
 		C363601019BC94CE0045A009 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C363600919BC94C60045A009 /* SwifteriOS.framework */; };
 		C38211C019BCA83500D3FED0 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38211BF19BCA83500D3FED0 /* StatusCell.swift */; };
 		C3B8FB6A19BC4BF0004C441F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B8FB6919BC4BF0004C441F /* MainViewController.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C33F447C19C3EB27000DED51 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		C3635FFE19BC94C60045A009 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
 		C38211BF19BCA83500D3FED0 /* StatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		C3B8FB6919BC4BF0004C441F /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				C3D81C6819BB51EF00B276BE /* Supporting Files */,
 				C3B8FB6919BC4BF0004C441F /* MainViewController.swift */,
 				C38211BF19BCA83500D3FED0 /* StatusCell.swift */,
+				C33F447C19C3EB27000DED51 /* Status.swift */,
 			);
 			path = earthquakeForiOS;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				C3D81C6E19BB51EF00B276BE /* earthquakeForiOS.xcdatamodeld in Sources */,
 				C3D81C6B19BB51EF00B276BE /* AppDelegate.swift in Sources */,
 				C3B8FB6A19BC4BF0004C441F /* MainViewController.swift in Sources */,
+				C33F447D19C3EB27000DED51 /* Status.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

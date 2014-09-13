@@ -14,7 +14,7 @@ import CoreData
 class MainViewController: UITableViewController{
     
     var swifter: Swifter? = nil
-    var statuses: [(id: Int, text: String)] = []
+    var statuses: [Status] = []
     
     
     @IBOutlet var urlTextField: UITextField!
@@ -52,7 +52,6 @@ class MainViewController: UITableViewController{
         }
         swifter!.getStatusesShowWithID(status.id, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
             statusFetched in
-            println(statusFetched)
             if(statusFetched!["retweeted"]!.integer! != 0){
                 let id = statusFetched!["current_user_retweet"]!["id"].integer!
                 self.swifter!.postStatusesDestroyWithID(id, trimUser: false, success:{
@@ -101,52 +100,45 @@ class MainViewController: UITableViewController{
         if(statusId != nil){
         
         swifter?.getStatusesShowWithID(statusId!, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
-            {status in
-                let s = (id: status!["id"]!.integer!, text: status!["text"]!.string!)
-                self.statuses.append(s)
+            {json in
+                let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+                let context = appDel.managedObjectContext!
+                let entity = NSEntityDescription.entityForName("Status", inManagedObjectContext: context)
+                let status = Status(entity: entity!, insertIntoManagedObjectContext: nil)
+                status.setJSON(json!)
+                self.statuses.append(status)
                 self.tableView.reloadData()
-                self.saveStatus(status!)
+                self.saveStatus(status)
             }
             , failure: failureHandler)
 
       }
     }
     
-    func loadStatuses () -> [(id: Int,text: String)]{
-        var ret:[(id: Int,text: String)] = []
+    func loadStatuses () -> [Status]{
         let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
         let context = appDel.managedObjectContext!
-        let request = NSFetchRequest(entityName: "Statuses")
+        let request = NSFetchRequest(entityName: "Status")
         request.returnsObjectsAsFaults = false
 
         let result = context.executeFetchRequest(request, error: nil)
         if(result != nil || !(result!.isEmpty)){
-            for res in result! as [NSManagedObject]{
-                let id = res.valueForKey("id") as Int
-                let text = res.valueForKey("text") as String
-                let status = (id: id,text: text)
-                ret.append(status)
-            }
+            return result! as [Status]
         }
-        return ret
+        return []
     }
     
-    func saveStatus(status: Dictionary<String,JSONValue>){
+    func saveStatus(status: Status){
         let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
         let context = appDel.managedObjectContext!
-        let entity = NSEntityDescription.insertNewObjectForEntityForName("Statuses", inManagedObjectContext: context) as NSManagedObject
-        entity.setValue(status["id"]!.integer!, forKey: "id")
-        entity.setValue(status["text"]!.string!, forKey: "text")
+        context.insertObject(status)
         context.save(nil)
     }
     
-    func deleteStatus(status: (id: Int, text: String)){
+    func deleteStatus(status: Status){
         let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
         let context = appDel.managedObjectContext!
-        let entity = NSManagedObject.alloc()
-        entity.setValue(status.id, forKey: "id")
-        entity.setValue(status.text, forKey: "text")
-        context.deleteObject(entity)
+        context.deleteObject(status)
         context.save(nil)
     }
     
