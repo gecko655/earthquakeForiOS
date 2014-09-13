@@ -59,7 +59,7 @@
         <scene sceneID="8Le-xV-XXx">
             <objects>
                 <tableViewController id="Jai-Hb-E97" customClass="MainViewController" customModule="earthquakeForiOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bsu-Ow-2e5">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="63" sectionHeaderHeight="22" sectionFooterHeight="22" id="bsu-Ow-2e5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -104,26 +104,41 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mainCell" id="iYQ-6F-3FU" customClass="StatusCell" customModule="earthquakeForiOS" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mainCell" rowHeight="63" id="iYQ-6F-3FU" customClass="StatusCell" customModule="earthquakeForiOS" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iYQ-6F-3FU" id="mK4-Cp-Bxf">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAX-4R-NR4">
-                                            <rect key="frame" x="8" y="11" width="576" height="21"/>
+                                            <rect key="frame" x="8" y="16" width="576" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UuC-Fj-Szc">
+                                            <rect key="frame" x="8" y="41" width="31" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="centerY" secondItem="lAX-4R-NR4" secondAttribute="centerY" id="3Oe-XH-Q0a"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="lAX-4R-NR4" secondAttribute="trailing" constant="8" id="7kI-26-uWO"/>
                                         <constraint firstItem="lAX-4R-NR4" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="NOU-Uj-4PM"/>
+                                        <constraint firstItem="UuC-Fj-Szc" firstAttribute="top" secondItem="lAX-4R-NR4" secondAttribute="bottom" constant="4" id="Vty-OZ-jrL"/>
+                                        <constraint firstItem="UuC-Fj-Szc" firstAttribute="bottom" secondItem="mK4-Cp-Bxf" secondAttribute="bottomMargin" constant="-8" id="ald-n2-9Wq"/>
+                                        <constraint firstItem="UuC-Fj-Szc" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="hRn-82-AcV"/>
+                                        <constraint firstItem="lAX-4R-NR4" firstAttribute="top" secondItem="mK4-Cp-Bxf" secondAttribute="topMargin" constant="8" id="mT4-Rq-6NT"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="ald-n2-9Wq"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="statusText" destination="lAX-4R-NR4" id="dqh-OF-N8O"/>
+                                    <outlet property="screenNameLabel" destination="UuC-Fj-Szc" id="OKD-g8-Wll"/>
+                                    <outlet property="statusTextLabel" destination="lAX-4R-NR4" id="b6N-p3-M3z"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

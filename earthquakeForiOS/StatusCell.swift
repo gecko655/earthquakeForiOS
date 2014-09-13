@@ -11,6 +11,12 @@ import UIKit
 import SwifteriOS
 
 class StatusCell: UITableViewCell{
-    @IBOutlet var statusText: UILabel!
+    @IBOutlet var statusTextLabel: UILabel!
+    @IBOutlet var screenNameLabel: UILabel!
+    
+    func reflect(status: Status){
+        statusTextLabel.text = status.text
+        screenNameLabel.text = "@\(status.user_screenname)"
+    }
     
 }

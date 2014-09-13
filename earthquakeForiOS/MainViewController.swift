@@ -37,7 +37,7 @@ class MainViewController: UITableViewController{
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseIdentifier = "mainCell"
         let cell: StatusCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as StatusCell
-        cell.statusText.text! = statuses[indexPath.row].text
+        cell.reflect(statuses[indexPath.row])
         return cell
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
