@@ -19,6 +19,7 @@ class Status: NSManagedObject {
     @NSManaged var text: String
     @NSManaged var user_name: String
     @NSManaged var user_screenname: String
+    @NSManaged var media: NSData?
     
     var statusJSON:Dictionary<String,JSON>?
     
@@ -35,6 +36,9 @@ class Status: NSManagedObject {
         id = json["id"]!.integer!
         text = json["text"]!.string!
         user_screenname = json["user"]!["screen_name"].string!
+        if json["entities"]?["media"][0]["type"].string? == "photo" {
+            let media_url = json["entities"]!["media"][0]["media_url"].string!
+            media = NSData.dataWithContentsOfURL(NSURL(string: media_url), options: nil, error: nil)
+        }
     }
-
 }
