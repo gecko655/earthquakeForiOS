@@ -44,13 +44,13 @@ class MainViewController: UITableViewController{
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let status = statuses[indexPath.row]
-        swifter!.getStatusesShowWithID(status.id, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
+        swifter!.getStatusesShowWithID(status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
             jsonFetched in
             if(jsonFetched!["retweeted"]!.integer! != 0){
-                let id = jsonFetched!["current_user_retweet"]!["id"].integer!
-                self.swifter!.postStatusesDestroyWithID(id, trimUser: false, success:{
+                let id_str = jsonFetched!["current_user_retweet"]!["id_str"].string!
+                self.swifter!.postStatusesDestroyWithID(id_str, trimUser: false, success:{
                     json in
-                    self.swifter!.postStatusRetweetWithID(status.id, trimUser: false, success: {
+                    self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
                         json in
                         let status = Status.getStatus(json!)
                         self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
@@ -58,7 +58,7 @@ class MainViewController: UITableViewController{
                     
                     }, failure: self.failureHandler)
             }else{
-                self.swifter!.postStatusRetweetWithID(status.id, trimUser: false, success: {
+                self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
                     json in
                     let status = Status.getStatus(json!)
                     self.alertWithTitle("Retweeted", message: "Retweeted the tweet:\n\(status.text)")
@@ -83,14 +83,16 @@ class MainViewController: UITableViewController{
     }
     
     func fetchStatus(url: String){
-        let pattern = "http.?://twitter.com/[^/]*/status.*/(\\d{1,20})";
+        let pattern = "http.?://twitter.com/[^/]*/status[^/]*/(\\d{1,20})";
         let regex: NSRegularExpression = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil)!
         let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))!.rangeAtIndex(1).toRange()
-        let statusId = url[resultRange!].toInt()
+        println(resultRange)
+        println(url[resultRange!])
+        let statusId = url[resultRange!]
 
-        if(statusId != nil){
+        if !(statusId.isEmpty){
         
-        swifter?.getStatusesShowWithID(statusId!, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
+        swifter?.getStatusesShowWithID(statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
             {json in
                 let status = Status.getStatus(json!)
                 self.statuses.append(status)
@@ -99,7 +101,9 @@ class MainViewController: UITableViewController{
             }
             , failure: failureHandler)
 
-      }
+        }else{
+            self.alertWithTitle("Error", message: "Invalid URL")
+        }
     }
     
     func loadStatuses () -> [Status]{

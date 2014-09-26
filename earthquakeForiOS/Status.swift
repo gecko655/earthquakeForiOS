@@ -16,6 +16,7 @@ class Status: NSManagedObject {
     @NSManaged var created_at: NSDate
     @NSManaged var icon: NSData
     @NSManaged var id: NSNumber
+    @NSManaged var id_str: String
     @NSManaged var text: String
     @NSManaged var user_name: String
     @NSManaged var user_screenname: String
@@ -33,7 +34,8 @@ class Status: NSManagedObject {
     }
     func setJSON(json: Dictionary<String,JSON>){
         statusJSON = json
-        id = json["id"]!.integer!
+        //id = json["id"]!.integer!
+        id_str = json["id_str"]!.string!
         text = json["text"]!.string!
         user_screenname = json["user"]!["screen_name"].string!
         if json["entities"]?["media"][0]["type"].string? == "photo" {

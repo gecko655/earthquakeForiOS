@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C32F403C19CF0E4300FE1CC7 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C363600919BC94C60045A009 /* SwifteriOS.framework */; };
+		C32F403E19CF0ED300FE1CC7 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C363600919BC94C60045A009 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C33F447D19C3EB27000DED51 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F447C19C3EB27000DED51 /* Status.swift */; };
-		C363601019BC94CE0045A009 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C363600919BC94C60045A009 /* SwifteriOS.framework */; };
 		C38211C019BCA83500D3FED0 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38211BF19BCA83500D3FED0 /* StatusCell.swift */; };
 		C3B8FB6A19BC4BF0004C441F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B8FB6919BC4BF0004C441F /* MainViewController.swift */; };
 		C3D81C6B19BB51EF00B276BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D81C6A19BB51EF00B276BE /* AppDelegate.swift */; };
@@ -20,6 +21,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C32F403F19CF0ED300FE1CC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3635FFE19BC94C60045A009 /* Swifter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B9F50ED1944A5AB00894629;
+			remoteInfo = SwifteriOS;
+		};
 		C363600619BC94C60045A009 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3635FFE19BC94C60045A009 /* Swifter.xcodeproj */;
@@ -64,6 +72,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C32F404119CF0ED300FE1CC7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C32F403E19CF0ED300FE1CC7 /* SwifteriOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		C33F447C19C3EB27000DED51 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		C3635FFE19BC94C60045A009 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
@@ -86,7 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C363601019BC94CE0045A009 /* SwifteriOS.framework in Frameworks */,
+				C32F403C19CF0E4300FE1CC7 /* SwifteriOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,10 +204,12 @@
 				C3D81C6119BB51EF00B276BE /* Sources */,
 				C3D81C6219BB51EF00B276BE /* Frameworks */,
 				C3D81C6319BB51EF00B276BE /* Resources */,
+				C32F404119CF0ED300FE1CC7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C32F404019CF0ED300FE1CC7 /* PBXTargetDependency */,
 			);
 			name = earthquakeForiOS;
 			productName = earthquakeForiOS;
@@ -221,6 +245,7 @@
 				TargetAttributes = {
 					C3D81C6419BB51EF00B276BE = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = 8ASP6D6XCZ;
 					};
 					C3D81C7919BB51F000B276BE = {
 						CreatedOnToolsVersion = 6.0;
@@ -335,6 +360,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C32F404019CF0ED300FE1CC7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwifteriOS;
+			targetProxy = C32F403F19CF0ED300FE1CC7 /* PBXContainerItemProxy */;
+		};
 		C3D81C7C19BB51F000B276BE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C3D81C6419BB51EF00B276BE /* earthquakeForiOS */;
