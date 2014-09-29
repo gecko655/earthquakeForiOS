@@ -24,8 +24,11 @@ class MainViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for status in loadStatuses(){
-            statuses.append(status)
+        let load = loadStatuses()
+        if(load != nil){
+            for status in load!{
+                statuses.append(status)
+            }
         }
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.tableView.reloadData()
@@ -106,17 +109,15 @@ class MainViewController: UITableViewController{
         }
     }
     
-    func loadStatuses () -> [Status]{
+    func loadStatuses () -> [Status]?{
         let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
         let context = appDel.managedObjectContext!
         let request = NSFetchRequest(entityName: "Status")
         request.returnsObjectsAsFaults = false
 
         let result = context.executeFetchRequest(request, error: nil)
-        if(result != nil || !(result!.isEmpty)){
-            return result! as [Status]
-        }
-        return []
+        return result as? [Status]
+        
     }
     
     func saveStatus(status: Status){
