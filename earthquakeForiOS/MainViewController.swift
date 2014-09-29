@@ -89,8 +89,6 @@ class MainViewController: UITableViewController{
         let pattern = "http.?://twitter.com/[^/]*/status[^/]*/(\\d{1,20})";
         let regex: NSRegularExpression = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil)!
         let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))!.rangeAtIndex(1).toRange()
-        println(resultRange)
-        println(url[resultRange!])
         let statusId = url[resultRange!]
 
         if !(statusId.isEmpty){
