@@ -11,7 +11,7 @@ import UIKit
 import SwifteriOS
 import CoreData
 
-class MainViewController: UITableViewController{
+class MainViewController: UITableViewController, UITextFieldDelegate{
     
     var swifter: Swifter? = nil
     var statuses: [Status] = []
@@ -30,9 +30,14 @@ class MainViewController: UITableViewController{
                 statuses.append(status)
             }
         }
+        self.urlTextField.delegate = self
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.tableView.reloadData()
         
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.urlTextField.resignFirstResponder()
+        return true
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
