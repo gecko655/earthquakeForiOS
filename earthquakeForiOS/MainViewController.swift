@@ -57,24 +57,22 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
                 if let id_str = jsonFetched?["current_user_retweet"]?["id_str"].string? {
                     self.swifter!.postStatusesDestroyWithID(id_str, trimUser: false, success:{
                         json in
-                        self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
-                            json in
-                            let status = Status.getStatus(json!)
-                            self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
-                            }, failure: self.failureHandler)
-                        
+                        self.doRT(status)
                         }, failure: self.failureHandler)
                 }
             }else{
-                self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
-                    json in
-                    let status = Status.getStatus(json!)
-                    self.alertWithTitle("Retweeted", message: "Retweeted the tweet:\n\(status.text)")
-                    }, failure: self.failureHandler)
+                self.doRT(status)
             }
             
             
             }, failure: failureHandler)
+    }
+    func doRT(status: Status){
+        self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
+            json in
+            let status = Status.getStatus(json!)
+            self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
+            }, failure: self.failureHandler)
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
