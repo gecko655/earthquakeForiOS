@@ -11,6 +11,6 @@
         <attribute name="user_screenname" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Status" positionX="-63" positionY="-18" width="128" height="165"/>
+        <element name="Status" positionX="-63" positionY="-18" width="128" height="163"/>
     </elements>
 </model>

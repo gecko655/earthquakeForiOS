@@ -24,9 +24,8 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let load = loadStatuses()
-        if(load != nil){
-            for status in load!{
+        if let load = loadStatuses()? {
+            for status in load{
                 statuses.append(status)
             }
         }
@@ -54,17 +53,18 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         let status = statuses[indexPath.row]
         swifter!.getStatusesShowWithID(status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
             jsonFetched in
-            if(jsonFetched!["retweeted"]!.integer! != 0){
-                let id_str = jsonFetched!["current_user_retweet"]!["id_str"].string!
-                self.swifter!.postStatusesDestroyWithID(id_str, trimUser: false, success:{
-                    json in
-                    self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
+            if(jsonFetched?["retweeted"]?.integer? != 0){
+                if let id_str = jsonFetched?["current_user_retweet"]?["id_str"].string? {
+                    self.swifter!.postStatusesDestroyWithID(id_str, trimUser: false, success:{
                         json in
-                        let status = Status.getStatus(json!)
-                        self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
+                        self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
+                            json in
+                            let status = Status.getStatus(json!)
+                            self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
+                            }, failure: self.failureHandler)
+                        
                         }, failure: self.failureHandler)
-                    
-                    }, failure: self.failureHandler)
+                }
             }else{
                 self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
                     json in
@@ -101,8 +101,6 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         swifter?.getStatusesShowWithID(statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
             {json in
                 let status = Status.getStatus(json!)
-                self.statuses.append(status)
-                self.tableView.reloadData()
                 self.saveStatus(status)
             }
             , failure: failureHandler)
@@ -126,7 +124,17 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     func saveStatus(status: Status){
         let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
         let context = appDel.managedObjectContext!
-        context.insertObject(status)
+        let request = NSFetchRequest(entityName: "Status")
+        request.predicate = NSPredicate(format: "id_str=%@", status.id_str)
+        let result = context.executeFetchRequest(request, error: nil)
+        if (result != nil && result!.isEmpty){
+            context.insertObject(status)
+            self.statuses.append(status)
+            self.tableView.reloadData()
+        }else{
+            context.rollback()
+            self.alertWithTitle("Error", message: "Tweet already exists in this app:\n@\(status.user_screenname) \(status.text)")
+        }
         context.save(nil)
     }
     
