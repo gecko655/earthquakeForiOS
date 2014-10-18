@@ -21,10 +21,8 @@ class StatusCell: UITableViewCell{
         screenNameLabel.text = "@\(status.user_screenname)"
         iconView.image = UIImage(data: status.icon)
         if (status.media == nil){
-            mediaView.hidden = true
-            mediaView.sizeToFit()
+            mediaView.removeFromSuperview()
         }else{
-            mediaView.hidden = false
             mediaView.image = UIImage(data: status.media!)
         }
     }
