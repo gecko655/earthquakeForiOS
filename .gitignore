@@ -31,3 +31,5 @@ DerivedData
 #
 Pods/
 Podfile.lock
+
+forShip
