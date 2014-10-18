@@ -42,5 +42,8 @@ class Status: NSManagedObject {
             let media_url = json["entities"]!["media"][0]["media_url"].string!
             media = NSData.dataWithContentsOfURL(NSURL(string: media_url), options: nil, error: nil)
         }
+        if let profile_image_url = json["user"]?["profile_image_url_https"].string?{
+            icon = NSData.dataWithContentsOfURL(NSURL(string: profile_image_url), options: nil, error: nil)
+        }
     }
 }

@@ -14,10 +14,12 @@ class StatusCell: UITableViewCell{
     @IBOutlet var statusTextLabel: UILabel!
     @IBOutlet var screenNameLabel: UILabel!
     @IBOutlet var mediaView: UIImageView!
+    @IBOutlet var iconView: UIImageView!
     
     func reflect(status: Status){
         statusTextLabel.text = status.text
         screenNameLabel.text = "@\(status.user_screenname)"
+        iconView.image = UIImage(data: status.icon)
         if (status.media == nil){
             mediaView.hidden = true
             mediaView.sizeToFit()

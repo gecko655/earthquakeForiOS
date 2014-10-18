@@ -112,12 +112,6 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UuC-Fj-Szc">
-                                            <rect key="frame" x="8" y="41" width="31" height="15"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KNz-WG-gUi">
                                             <rect key="frame" x="548" y="13" width="36" height="36"/>
                                             <constraints>
@@ -125,24 +119,42 @@
                                                 <constraint firstAttribute="width" constant="36" id="rMd-lu-fmh"/>
                                             </constraints>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Df-lw-ftR">
+                                            <rect key="frame" x="8" y="37" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="Ths-6z-eJf"/>
+                                                <constraint firstAttribute="height" constant="20" id="gLb-yX-Wp9"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UuC-Fj-Szc">
+                                            <rect key="frame" x="36" y="41" width="31" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="UuC-Fj-Szc" firstAttribute="leading" secondItem="8Df-lw-ftR" secondAttribute="trailing" constant="8" id="DkJ-xv-JAI"/>
                                         <constraint firstItem="lAX-4R-NR4" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="NOU-Uj-4PM"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="KNz-WG-gUi" secondAttribute="trailing" constant="8" id="SvO-HE-rz3"/>
                                         <constraint firstItem="UuC-Fj-Szc" firstAttribute="top" secondItem="lAX-4R-NR4" secondAttribute="bottom" constant="4" id="Vty-OZ-jrL"/>
                                         <constraint firstAttribute="centerY" secondItem="KNz-WG-gUi" secondAttribute="centerY" id="Y58-gC-h74"/>
                                         <constraint firstItem="UuC-Fj-Szc" firstAttribute="bottom" secondItem="mK4-Cp-Bxf" secondAttribute="bottomMargin" constant="-8" id="ald-n2-9Wq"/>
+                                        <constraint firstItem="8Df-lw-ftR" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="evB-HV-dQd"/>
                                         <constraint firstItem="UuC-Fj-Szc" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="hRn-82-AcV"/>
                                         <constraint firstItem="KNz-WG-gUi" firstAttribute="leading" secondItem="lAX-4R-NR4" secondAttribute="trailing" constant="-8" id="itj-Aw-uBF"/>
                                         <constraint firstItem="lAX-4R-NR4" firstAttribute="top" secondItem="mK4-Cp-Bxf" secondAttribute="topMargin" constant="8" id="mT4-Rq-6NT"/>
+                                        <constraint firstItem="8Df-lw-ftR" firstAttribute="top" secondItem="lAX-4R-NR4" secondAttribute="bottom" id="pOl-bQ-LFS"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="ald-n2-9Wq"/>
+                                            <exclude reference="hRn-82-AcV"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="iconView" destination="8Df-lw-ftR" id="bO8-UY-mwK"/>
                                     <outlet property="mediaView" destination="KNz-WG-gUi" id="eRs-bD-km5"/>
                                     <outlet property="screenNameLabel" destination="UuC-Fj-Szc" id="OKD-g8-Wll"/>
                                     <outlet property="statusTextLabel" destination="lAX-4R-NR4" id="b6N-p3-M3z"/>
