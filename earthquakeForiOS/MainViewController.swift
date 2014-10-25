@@ -90,7 +90,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     
     func fetchStatus(url: String){
         let pattern = "http.?://[^/]*twitter.com/[^/]*/status[^/]*/(\\d{1,20})";
-        let regex: NSRegularExpression = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil)!
+        let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)!
         let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))!.rangeAtIndex(1).toRange()
         let statusId = url[resultRange!]
 

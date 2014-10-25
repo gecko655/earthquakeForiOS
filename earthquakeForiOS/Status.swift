@@ -39,11 +39,12 @@ class Status: NSManagedObject {
         text = json["text"]!.string!
         user_screenname = json["user"]!["screen_name"].string!
         if json["entities"]?["media"][0]["type"].string? == "photo" {
-            let media_url = json["entities"]!["media"][0]["media_url"].string!
-            media = NSData.dataWithContentsOfURL(NSURL(string: media_url), options: nil, error: nil)
+            if let media_url = json["entities"]!["media"][0]["media_url"].string? {
+                media = NSData(contentsOfURL: NSURL(string: media_url)!, options: nil, error: nil)
+            }
         }
         if let profile_image_url = json["user"]?["profile_image_url_https"].string?{
-            icon = NSData.dataWithContentsOfURL(NSURL(string: profile_image_url), options: nil, error: nil)
+            icon = NSData(contentsOfURL: NSURL(string: profile_image_url)!, options: nil, error: nil)!
         }
     }
 }

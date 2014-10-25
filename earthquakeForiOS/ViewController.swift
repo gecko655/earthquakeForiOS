@@ -64,7 +64,7 @@ class ViewController: UITableViewController {
     
         
         let acAccount = self.twitterAccounts![indexPath.row] as ACAccount
-        cell.textLabel!.text = acAccount.accountDescription
+        cell.textLabel.text = acAccount.accountDescription
         
         return cell
         
