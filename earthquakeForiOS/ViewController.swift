@@ -31,7 +31,9 @@ class ViewController: UITableViewController {
                     self.alertWithTitle("Error", message: "There are no Twitter accounts configured. You can add or create a Twitter account in Settings.")
                 }
                 else {
-                    self.tableView.reloadData()
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.tableView.reloadData()
+                    }
                 }
             }
             else {
