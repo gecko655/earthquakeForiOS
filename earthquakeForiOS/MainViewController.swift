@@ -20,7 +20,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         alertWithTitle("Error", message: error.localizedDescription)
     }
     
-    @IBOutlet var urlTextField: UITextField!
+    //@IBOutlet var urlTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +29,13 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
                 statuses.append(status)
             }
         }
-        self.urlTextField.delegate = self
+        //self.urlTextField.delegate = self
         self.navigationItem.rightBarButtonItem = self.editButtonItem()
         self.tableView.reloadData()
         
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.urlTextField.resignFirstResponder()
+        //self.urlTextField.resignFirstResponder()
         return true
     }
     
@@ -51,7 +51,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let status = statuses[indexPath.row]
-        swifter!.getStatusesShowWithID(status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
+        swifter?.getStatusesShowWithID(status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
             jsonFetched in
             if(jsonFetched?["retweeted"]?.integer? != 0){
                 if let id_str = jsonFetched?["current_user_retweet"]?["id_str"].string? {
@@ -68,7 +68,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
             }, failure: failureHandler)
     }
     func doRT(status: Status){
-        self.swifter!.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
+        self.swifter?.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
             json in
             let status = Status.getStatus(json!)
             self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
@@ -85,26 +85,28 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         }
     }
     @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
-        fetchStatus(self.urlTextField.text)
+        if let clipboard = UIPasteboard.generalPasteboard().string{
+            fetchStatus(clipboard)
+                //self.urlTextField.text)
+        }else{
+            self.alertWithTitle("Error", message: "No content in clipboard")
+        }
+        
     }
     
     func fetchStatus(url: String){
         let pattern = "http.?://[^/]*twitter.com/[^/]*/status[^/]*/(\\d{1,20})";
         let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)!
-        let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))!.rangeAtIndex(1).toRange()
-        let statusId = url[resultRange!]
-
-        if !(statusId.isEmpty){
-        
-        swifter?.getStatusesShowWithID(statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
-            {json in
-                let status = Status.getStatus(json!)
-                self.saveStatus(status)
-            }
-            , failure: failureHandler)
-
+        if let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))?.rangeAtIndex(1).toRange(){
+            let statusId = url[resultRange]
+            swifter?.getStatusesShowWithID(statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
+                {json in
+                    let status = Status.getStatus(json!)
+                    self.saveStatus(status)
+                }
+                , failure: failureHandler)
         }else{
-            self.alertWithTitle("Error", message: "Invalid URL")
+            self.alertWithTitle("Error", message: "Invalid URL:\n \(url)")
         }
     }
     
@@ -129,6 +131,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
             context.insertObject(status)
             self.statuses.append(status)
             self.tableView.reloadData()
+            self.alertWithTitle("Success", message: "Successfully saved This tweet:\n@\(status.user_screenname) \(status.text)")
         }else{
             context.rollback()
             self.alertWithTitle("Error", message: "Tweet already exists in this app:\n@\(status.user_screenname) \(status.text)")
