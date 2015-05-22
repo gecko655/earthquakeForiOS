@@ -26,14 +26,12 @@ class ViewController: UITableViewController {
             if granted {
                 self.twitterAccounts = accountStore.accountsWithAccountType(accountType) as! [ACAccount]?
                 
-                if self.twitterAccounts?.count == 0
-                {
-                    self.alertWithTitle("Error", message: "There are no Twitter accounts configured. You can add or create a Twitter account in Settings.")
-                }
-                else {
+                if self.twitterAccounts?.count > 0 {
                     dispatch_async(dispatch_get_main_queue()){
-                        self.tableView.reloadData()
-                    }
+                            self.tableView.reloadData()
+                        }
+                } else {
+                    self.alertWithTitle("Error", message: "There are no Twitter accounts configured. You can add or create a Twitter account in Settings.")
                 }
             }
             else {
@@ -53,10 +51,7 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(self.twitterAccounts == nil){
-            return 0
-        }
-        return self.twitterAccounts!.count
+        return twitterAccounts?.count ?? 0
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
