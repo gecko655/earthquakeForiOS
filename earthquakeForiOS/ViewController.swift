@@ -24,7 +24,7 @@ class ViewController: UITableViewController {
             granted, error in
             
             if granted {
-                self.twitterAccounts = accountStore.accountsWithAccountType(accountType) as [ACAccount]?
+                self.twitterAccounts = accountStore.accountsWithAccountType(accountType) as! [ACAccount]?
                 
                 if self.twitterAccounts?.count == 0
                 {
@@ -62,7 +62,7 @@ class ViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellIdentifier = "Cell"
-        let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UITableViewCell
+        let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UITableViewCell
     
         
         let acAccount = self.twitterAccounts![indexPath.row] as ACAccount
@@ -82,7 +82,7 @@ class ViewController: UITableViewController {
         let indexPath = self.tableView.indexPathForSelectedRow()
         let twitterAccount = self.twitterAccounts![indexPath!.row]
         self.swifter = Swifter(account: twitterAccount)
-        let mainViewController :MainViewController = segue.destinationViewController as MainViewController
+        let mainViewController :MainViewController = segue.destinationViewController as! MainViewController
         mainViewController.swifter = self.swifter
         
     }

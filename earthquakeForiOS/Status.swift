@@ -25,7 +25,7 @@ class Status: NSManagedObject {
     var statusJSON:Dictionary<String,JSON>?
     
     class func getStatus(json: Dictionary<String,JSON>) -> Status{
-        let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
         let entity = NSEntityDescription.entityForName("Status", inManagedObjectContext: context)
         let status = Status(entity: entity!, insertIntoManagedObjectContext: nil)
@@ -38,12 +38,12 @@ class Status: NSManagedObject {
         id_str = json["id_str"]!.string!
         text = json["text"]!.string!
         user_screenname = json["user"]!["screen_name"].string!
-        if json["entities"]?["media"][0]["type"].string? == "photo" {
-            if let media_url = json["entities"]!["media"][0]["media_url"].string? {
+        if json["entities"]?["media"][0]["type"].string == "photo" {
+            if let media_url = json["entities"]!["media"][0]["media_url"].string {
                 media = NSData(contentsOfURL: NSURL(string: media_url)!, options: nil, error: nil)
             }
         }
-        if let profile_image_url = json["user"]?["profile_image_url_https"].string?{
+        if let profile_image_url = json["user"]?["profile_image_url_https"].string{
             icon = NSData(contentsOfURL: NSURL(string: profile_image_url)!, options: nil, error: nil)!
         }
     }

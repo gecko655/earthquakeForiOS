@@ -24,7 +24,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let load = loadStatuses()? {
+        if let load = loadStatuses() {
             for status in load{
                 statuses.append(status)
             }
@@ -45,7 +45,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseIdentifier = "statusCell"
-        let cell: StatusCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as StatusCell
+        let cell: StatusCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! StatusCell
         cell.reflect(statuses[indexPath.row])
         return cell
     }
@@ -53,8 +53,8 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         let status = statuses[indexPath.row]
         swifter?.getStatusesShowWithID(status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
             jsonFetched in
-            if(jsonFetched?["retweeted"]?.integer? != 0){
-                if let id_str = jsonFetched?["current_user_retweet"]?["id_str"].string? {
+            if(jsonFetched?["retweeted"]?.integer != 0){
+                if let id_str = jsonFetched?["current_user_retweet"]?["id_str"].string {
                     self.swifter!.postStatusesDestroyWithID(id_str, trimUser: false, success:{
                         json in
                         self.doRT(status)
@@ -97,7 +97,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     func fetchStatus(url: String){
         let pattern = "http.?://[^/]*twitter.com/[^/]*/status[^/]*/(\\d{1,20})";
         let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)!
-        if let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, countElements(url)))?.rangeAtIndex(1).toRange(){
+        if let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, count(url)))?.rangeAtIndex(1).toRange(){
             let statusId = url[resultRange]
             swifter?.getStatusesShowWithID(statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
                 {json in
@@ -111,7 +111,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     }
     
     func loadStatuses () -> [Status]?{
-        let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
         let request = NSFetchRequest(entityName: "Status")
         request.returnsObjectsAsFaults = false
@@ -122,7 +122,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     }
     
     func saveStatus(status: Status){
-        let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
         let request = NSFetchRequest(entityName: "Status")
         request.predicate = NSPredicate(format: "id_str=%@", status.id_str)
@@ -140,7 +140,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     }
     
     func deleteStatus(status: Status){
-        let appDel = UIApplication.sharedApplication().delegate! as AppDelegate
+        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
         context.deleteObject(status)
         context.save(nil)
