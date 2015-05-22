@@ -53,7 +53,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         let status = statuses[indexPath.row]
         swifter?.getStatusesShowWithID(status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
             jsonFetched in
-            if(jsonFetched?["retweeted"]?.integer != 0){
+            if(jsonFetched?["retweeted"]?.bool == true){
                 if let id_str = jsonFetched?["current_user_retweet"]?["id_str"].string {
                     self.swifter!.postStatusesDestroyWithID(id_str, trimUser: false, success:{
                         json in
@@ -95,7 +95,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     }
     
     func fetchStatus(url: String){
-        let pattern = "http.?://[^/]*twitter.com/[^/]*/status[^/]*/(\\d{1,20})";
+        let pattern = "http.?://[^/]*twitter.com/.*/status[^/]*/(\\d{1,20})";
         let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)!
         if let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, count(url)))?.rangeAtIndex(1).toRange(){
             let statusId = url[resultRange]
