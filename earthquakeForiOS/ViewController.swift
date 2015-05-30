@@ -13,7 +13,12 @@ import SwifteriOS
 class ViewController: UITableViewController {
 
     var twitterAccounts: [ACAccount]?
-    var swifter: Swifter?
+    
+    func openPrivacySettings(action: UIAlertAction!){
+        let url = NSURL(string:UIApplicationOpenSettingsURLString)
+        UIApplication.sharedApplication().openURL(url!)
+    
+    }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -35,7 +40,8 @@ class ViewController: UITableViewController {
                 }
             }
             else {
-                self.alertWithTitle("Error", message: error.localizedDescription)
+                self.alertWithTitle("Error", message: "Access to Twitter accounts was denied\n Please configure privacy settings.",
+                    handler: self.openPrivacySettings)
             }
         }
     }
@@ -67,7 +73,7 @@ class ViewController: UITableViewController {
         
     }
     
-    func alertWithTitle(title: String, message: String) {
+    func alertWithTitle(title: String, message: String, handler: ((UIAlertAction!) -> Void)? = nil) {
         var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
@@ -76,9 +82,9 @@ class ViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         let indexPath = self.tableView.indexPathForSelectedRow()
         let twitterAccount = self.twitterAccounts![indexPath!.row]
-        self.swifter = Swifter(account: twitterAccount)
+        let swifter = Swifter(account: twitterAccount)
         let mainViewController :MainViewController = segue.destinationViewController as! MainViewController
-        mainViewController.swifter = self.swifter
+        mainViewController.swifter = swifter
         
     }
 
