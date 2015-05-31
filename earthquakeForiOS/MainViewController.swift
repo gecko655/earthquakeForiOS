@@ -99,7 +99,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
                 }
                 , failure: failureHandler)
         }else{
-            self.alertWithTitle("Error", message: "Invalid URL:\n \(url)")
+            self.alertWithTitle("Invalid tweet URL", message: "Clip board should be like \n\"https://twitter.com/gecko655/status/604609734788800513\"\n Your input was \n\"\(url)\"")
         }
     }
     
