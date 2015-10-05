@@ -13,7 +13,7 @@ import SwifteriOS
 
 class Status: NSManagedObject {
 
-    @NSManaged var created_at: NSDate
+    @NSManaged var created_at: NSDate?
     @NSManaged var icon: NSData
     @NSManaged var id: NSNumber
     @NSManaged var id_str: String
@@ -33,6 +33,8 @@ class Status: NSManagedObject {
         return status
     }
     func setJSON(json: Dictionary<String,JSON>){
+        let dateFormat = NSDateFormatter()
+        dateFormat.dateFormat = "eee MMM dd HH:mm:ss ZZZZ yyyy"
         statusJSON = json
         //id = json["id"]!.integer!
         id_str = json["id_str"]!.string!
@@ -40,11 +42,12 @@ class Status: NSManagedObject {
         user_screenname = json["user"]!["screen_name"].string!
         if json["entities"]?["media"][0]["type"].string == "photo" {
             if let media_url = json["entities"]!["media"][0]["media_url"].string {
-                media = NSData(contentsOfURL: NSURL(string: media_url)!, options: nil, error: nil)
+                media = NSData.init(contentsOfURL: NSURL(string: media_url)!)
             }
         }
         if let profile_image_url = json["user"]?["profile_image_url_https"].string{
-            icon = NSData(contentsOfURL: NSURL(string: profile_image_url)!, options: nil, error: nil)!
+            icon = NSData.init(contentsOfURL: NSURL(string: profile_image_url)!)!
         }
+        created_at = dateFormat.dateFromString(json["created_at"]!.string!)
     }
 }

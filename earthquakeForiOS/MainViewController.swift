@@ -89,8 +89,8 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     
     func fetchStatus(url: String){
         let pattern = "http.?://[^/]*twitter.com/.*/status[^/]*/(\\d{1,20})";
-        let regex = NSRegularExpression(pattern: pattern, options: nil, error: nil)!
-        if let resultRange = regex.firstMatchInString(url, options: nil, range: NSMakeRange(0, count(url)))?.rangeAtIndex(1).toRange(){
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        if let resultRange = regex.firstMatchInString(url, options: [], range: NSMakeRange(0, url.characters.count))?.rangeAtIndex(1).toRange(){
             let statusId = url[resultRange]
             swifter.getStatusesShowWithID(statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
                 {json in
@@ -109,7 +109,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         let request = NSFetchRequest(entityName: "Status")
         request.returnsObjectsAsFaults = false
 
-        let result = context.executeFetchRequest(request, error: nil)
+        let result = try? context.executeFetchRequest(request)
         return result as? [Status]
         
     }
@@ -119,7 +119,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         let context = appDel.managedObjectContext!
         let request = NSFetchRequest(entityName: "Status")
         request.predicate = NSPredicate(format: "id_str=%@", status.id_str)
-        let result = context.executeFetchRequest(request, error: nil)
+        let result = try? context.executeFetchRequest(request)
         if (result != nil && result!.isEmpty){
             context.insertObject(status)
             statuses.append(status)
@@ -129,18 +129,24 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
             context.rollback()
             self.alertWithTitle("Error", message: "Tweet already exists in this app:\n@\(status.user_screenname) \(status.text)")
         }
-        context.save(nil)
+        do {
+            try context.save()
+        } catch _ {
+        }
     }
     
     func deleteStatus(status: Status){
         let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
         context.deleteObject(status)
-        context.save(nil)
+        do {
+            try context.save()
+        } catch _ {
+        }
     }
     
     func alertWithTitle(title: String, message: String) {
-        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -150,14 +156,14 @@ extension String
 {
     subscript(integerIndex: Int) -> Character
     {
-        let index = advance(startIndex, integerIndex)
+        let index = startIndex.advancedBy(integerIndex)
             return self[index]
     }
     
     subscript(integerRange: Range<Int>) -> String
     {
-        let start = advance(startIndex, integerRange.startIndex)
-        let end = advance(startIndex, integerRange.endIndex)
+        let start = startIndex.advancedBy(integerRange.startIndex)
+        let end = startIndex.advancedBy(integerRange.endIndex)
         let range = start..<end
         return self[range]
     }

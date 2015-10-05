@@ -20,7 +20,7 @@ class ViewController: UITableViewController {
     
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         let accountStore = ACAccountStore()
@@ -63,7 +63,7 @@ class ViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellIdentifier = "Cell"
-        let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! UITableViewCell
+        let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) 
     
         
         let acAccount = self.twitterAccounts![indexPath.row] as ACAccount
@@ -74,13 +74,13 @@ class ViewController: UITableViewController {
     }
     
     func alertWithTitle(title: String, message: String, handler: ((UIAlertAction!) -> Void)? = nil) {
-        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        let indexPath = self.tableView.indexPathForSelectedRow()
+        let indexPath = self.tableView.indexPathForSelectedRow
         let twitterAccount = self.twitterAccounts![indexPath!.row]
         let swifter = Swifter(account: twitterAccount)
         let mainViewController :MainViewController = segue.destinationViewController as! MainViewController

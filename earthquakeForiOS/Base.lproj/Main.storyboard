@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wWW-JM-hGZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wWW-JM-hGZ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -31,8 +32,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="Xnj-4R-v0k">
+                                <rect key="frame" x="0.0" y="86" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xnj-4R-v0k" id="qsE-G1-T7h">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
@@ -97,14 +100,16 @@
                         </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="statusCell" rowHeight="63" id="iYQ-6F-3FU" customClass="StatusCell" customModule="earthquakeForiOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="151" width="600" height="63"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iYQ-6F-3FU" id="mK4-Cp-Bxf">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAX-4R-NR4">
                                             <rect key="frame" x="8" y="16" width="548" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KNz-WG-gUi">
@@ -124,13 +129,20 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UuC-Fj-Szc">
                                             <rect key="frame" x="36" y="41" width="31" height="15"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="88M-hz-MNZ">
+                                            <rect key="frame" x="523" y="48" width="17" height="8"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="6"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="lAX-4R-NR4" secondAttribute="trailing" id="2ww-TQ-NdI"/>
                                         <constraint firstItem="UuC-Fj-Szc" firstAttribute="leading" secondItem="8Df-lw-ftR" secondAttribute="trailing" constant="8" id="DkJ-xv-JAI"/>
+                                        <constraint firstItem="KNz-WG-gUi" firstAttribute="leading" secondItem="88M-hz-MNZ" secondAttribute="trailing" constant="8" id="NJP-z1-48g"/>
                                         <constraint firstItem="lAX-4R-NR4" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="NOU-Uj-4PM"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="KNz-WG-gUi" secondAttribute="trailing" constant="8" id="SvO-HE-rz3"/>
                                         <constraint firstItem="UuC-Fj-Szc" firstAttribute="top" secondItem="lAX-4R-NR4" secondAttribute="bottom" constant="4" id="Vty-OZ-jrL"/>
@@ -139,6 +151,7 @@
                                         <constraint firstItem="8Df-lw-ftR" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="evB-HV-dQd"/>
                                         <constraint firstItem="UuC-Fj-Szc" firstAttribute="leading" secondItem="mK4-Cp-Bxf" secondAttribute="leadingMargin" id="hRn-82-AcV"/>
                                         <constraint firstItem="KNz-WG-gUi" firstAttribute="leading" secondItem="lAX-4R-NR4" secondAttribute="trailing" constant="-8" id="itj-Aw-uBF"/>
+                                        <constraint firstItem="UuC-Fj-Szc" firstAttribute="bottom" secondItem="88M-hz-MNZ" secondAttribute="bottom" id="l3O-ZH-E6K"/>
                                         <constraint firstItem="lAX-4R-NR4" firstAttribute="top" secondItem="mK4-Cp-Bxf" secondAttribute="topMargin" constant="8" id="mT4-Rq-6NT"/>
                                         <constraint firstItem="8Df-lw-ftR" firstAttribute="top" secondItem="lAX-4R-NR4" secondAttribute="bottom" id="pOl-bQ-LFS"/>
                                     </constraints>
@@ -150,6 +163,7 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="dateLabel" destination="88M-hz-MNZ" id="pWQ-GT-5jm"/>
                                     <outlet property="iconView" destination="8Df-lw-ftR" id="bO8-UY-mwK"/>
                                     <outlet property="mediaView" destination="KNz-WG-gUi" id="eRs-bD-km5"/>
                                     <outlet property="screenNameLabel" destination="UuC-Fj-Szc" id="OKD-g8-Wll"/>
