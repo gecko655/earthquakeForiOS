@@ -9,14 +9,38 @@
 import UIKit
 import Accounts
 import SwifteriOS
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ViewController: UITableViewController {
 
     var twitterAccounts: [ACAccount]?
     
-    func openPrivacySettings(action: UIAlertAction!){
-        let url = NSURL(string:UIApplicationOpenSettingsURLString)
-        UIApplication.sharedApplication().openURL(url!)
+    func openPrivacySettings(_ action: UIAlertAction?){
+        let url = URL(string:UIApplicationOpenSettingsURLString)
+        UIApplication.shared.openURL(url!)
     
     }
     
@@ -24,15 +48,15 @@ class ViewController: UITableViewController {
         super.init(coder: aDecoder)
         
         let accountStore = ACAccountStore()
-        let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
-        accountStore.requestAccessToAccountsWithType(accountType, options: nil) {
+        let accountType = accountStore.accountType(withAccountTypeIdentifier: ACAccountTypeIdentifierTwitter)
+        accountStore.requestAccessToAccounts(with: accountType, options: nil) {
             granted, error in
             
             if granted {
-                self.twitterAccounts = accountStore.accountsWithAccountType(accountType) as! [ACAccount]?
+                self.twitterAccounts = accountStore.accounts(with: accountType) as! [ACAccount]?
                 
                 if self.twitterAccounts?.count > 0 {
-                    dispatch_async(dispatch_get_main_queue()){
+                    DispatchQueue.main.async{
                             self.tableView.reloadData()
                         }
                 } else {
@@ -56,14 +80,14 @@ class ViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return twitterAccounts?.count ?? 0
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cellIdentifier = "Cell"
-        let cell :UITableViewCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) 
+        let cell :UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) 
     
         
         let acAccount = self.twitterAccounts![indexPath.row] as ACAccount
@@ -73,17 +97,17 @@ class ViewController: UITableViewController {
         
     }
     
-    func alertWithTitle(title: String, message: String, handler: ((UIAlertAction!) -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func alertWithTitle(_ title: String, message: String, handler: ((UIAlertAction?) -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         let indexPath = self.tableView.indexPathForSelectedRow
         let twitterAccount = self.twitterAccounts![indexPath!.row]
         let swifter = Swifter(account: twitterAccount)
-        let mainViewController :MainViewController = segue.destinationViewController as! MainViewController
+        let mainViewController :MainViewController = segue.destination as! MainViewController
         mainViewController.swifter = swifter
         
     }

@@ -16,7 +16,7 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     var swifter: Swifter!
     var statuses: [Status] = []
     
-    func failureHandler(error: NSError) -> Void {
+    func failureHandler(_ error: Error) -> Void {
         alertWithTitle("Error", message: error.localizedDescription)
     }
     
@@ -25,31 +25,31 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         if let load = loadStatuses() {
             statuses += load
         }
-        self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.tableView.reloadData()
         
     }
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.statuses.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "statusCell"
-        let cell: StatusCell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! StatusCell
+        let cell: StatusCell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! StatusCell
         cell.reflect(statuses[indexPath.row])
         return cell
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let status = statuses[indexPath.row]
-        swifter.getStatusesShowWithID(status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false, success: {
+        swifter.getTweet(forID: status.id_str, count: 1, trimUser: false, includeMyRetweet: true, includeEntities: false,  success: {
             jsonFetched in
-            if(jsonFetched?["retweeted"]?.bool == true){
-                if let id_str = jsonFetched?["current_user_retweet"]?["id_str"].string {
-                    self.swifter.postStatusesDestroyWithID(id_str, trimUser: false, success:{
+            if(jsonFetched["retweeted"].bool == true){
+                if let id_str = jsonFetched["current_user_retweet"]["id_str"].string {
+                    self.swifter.destroyTweet(forID: id_str, trimUser: false, success:{
                         json in
                         self.doRT(status)
                         }, failure: self.failureHandler)
@@ -59,27 +59,27 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
             }
             
             
-            }, failure: failureHandler)
+            }, failure: self.failureHandler)
     }
-    func doRT(status: Status){
-        swifter.postStatusRetweetWithID(status.id_str, trimUser: false, success: {
+    func doRT(_ status: Status){
+        swifter.retweetTweet(forID: status.id_str, trimUser: false, success: {
             json in
-            let status = Status.getStatus(json!)
+            let status = Status.getStatus(json)
             self.alertWithTitle("Retweeted", message: "Retweeted the tweet: \(status.text) by \(status.user_screenname)")
             }, failure: failureHandler)
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
             deleteStatus(statuses[indexPath.row])
-            statuses.removeAtIndex(indexPath.row)
+            statuses.remove(at: indexPath.row)
             
-            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-        } else if (editingStyle == UITableViewCellEditingStyle.Insert) {
+            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+        } else if (editingStyle == UITableViewCellEditingStyle.insert) {
         }
     }
-    @IBAction func urlButtonClicked(sender: AnyObject, forEvent event: UIEvent) {
-        if let clipboard = UIPasteboard.generalPasteboard().string{
+    @IBAction func urlButtonClicked(_ sender: AnyObject, forEvent event: UIEvent) {
+        if let clipboard = UIPasteboard.general.string{
             fetchStatus(clipboard)
         }else{
             self.alertWithTitle("Error", message: "No content in clipboard")
@@ -87,14 +87,14 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         
     }
     
-    func fetchStatus(url: String){
+    func fetchStatus(_ url: String){
         let pattern = "http.?://[^/]*twitter.com/.*/status[^/]*/(\\d{1,20})";
         let regex = try! NSRegularExpression(pattern: pattern, options: [])
-        if let resultRange = regex.firstMatchInString(url, options: [], range: NSMakeRange(0, url.characters.count))?.rangeAtIndex(1).toRange(){
+        if let resultRange = regex.firstMatch(in: url, options: [], range: NSMakeRange(0, url.characters.count))?.rangeAt(1).toRange(){
             let statusId = url[resultRange]
-            swifter.getStatusesShowWithID(statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
+            swifter.getTweet(forID: statusId, count: 1, trimUser: false, includeMyRetweet: false, includeEntities: true, success:
                 {json in
-                    let status = Status.getStatus(json!)
+                    let status = Status.getStatus(json)
                     self.saveStatus(status)
                 }
                 , failure: failureHandler)
@@ -104,24 +104,24 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
     }
     
     func loadStatuses () -> [Status]?{
-        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
+        let appDel = UIApplication.shared.delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
-        let request = NSFetchRequest(entityName: "Status")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Status")
         request.returnsObjectsAsFaults = false
 
-        let result = try? context.executeFetchRequest(request)
+        let result = try? context.fetch(request)
         return result as? [Status]
         
     }
     
-    func saveStatus(status: Status){
-        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
+    func saveStatus(_ status: Status){
+        let appDel = UIApplication.shared.delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
-        let request = NSFetchRequest(entityName: "Status")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Status")
         request.predicate = NSPredicate(format: "id_str=%@", status.id_str)
-        let result = try? context.executeFetchRequest(request)
+        let result = try? context.fetch(request)
         if (result != nil && result!.isEmpty){
-            context.insertObject(status)
+            context.insert(status)
             statuses.append(status)
             self.tableView.reloadData()
             self.alertWithTitle("Success", message: "Successfully saved This tweet:\n@\(status.user_screenname) \(status.text)")
@@ -135,20 +135,20 @@ class MainViewController: UITableViewController, UITextFieldDelegate{
         }
     }
     
-    func deleteStatus(status: Status){
-        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
+    func deleteStatus(_ status: Status){
+        let appDel = UIApplication.shared.delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
-        context.deleteObject(status)
+        context.delete(status)
         do {
             try context.save()
         } catch _ {
         }
     }
     
-    func alertWithTitle(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func alertWithTitle(_ title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
@@ -156,14 +156,14 @@ extension String
 {
     subscript(integerIndex: Int) -> Character
     {
-        let index = startIndex.advancedBy(integerIndex)
+        let index = characters.index(startIndex, offsetBy: integerIndex)
             return self[index]
     }
     
     subscript(integerRange: Range<Int>) -> String
     {
-        let start = startIndex.advancedBy(integerRange.startIndex)
-        let end = startIndex.advancedBy(integerRange.endIndex)
+        let start = characters.index(startIndex, offsetBy: integerRange.lowerBound)
+        let end = characters.index(startIndex, offsetBy: integerRange.upperBound)
         let range = start..<end
         return self[range]
     }

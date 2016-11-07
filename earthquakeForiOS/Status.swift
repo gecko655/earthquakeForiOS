@@ -13,41 +13,41 @@ import SwifteriOS
 
 class Status: NSManagedObject {
 
-    @NSManaged var created_at: NSDate?
-    @NSManaged var icon: NSData
+    @NSManaged var created_at: Date?
+    @NSManaged var icon: Data
     @NSManaged var id: NSNumber
     @NSManaged var id_str: String
     @NSManaged var text: String
     @NSManaged var user_name: String
     @NSManaged var user_screenname: String
-    @NSManaged var media: NSData?
+    @NSManaged var media: Data?
     
-    var statusJSON:Dictionary<String,JSON>?
+    var statusJSON: JSON?
     
-    class func getStatus(json: Dictionary<String,JSON>) -> Status{
-        let appDel = UIApplication.sharedApplication().delegate! as! AppDelegate
+    class func getStatus(_ json: JSON) -> Status{
+        let appDel = UIApplication.shared.delegate! as! AppDelegate
         let context = appDel.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Status", inManagedObjectContext: context)
-        let status = Status(entity: entity!, insertIntoManagedObjectContext: nil)
+        let entity = NSEntityDescription.entity(forEntityName: "Status", in: context)
+        let status = Status(entity: entity!, insertInto: nil)
         status.setJSON(json)
         return status
     }
-    func setJSON(json: Dictionary<String,JSON>){
-        let dateFormat = NSDateFormatter()
+    func setJSON(_ json: JSON){
+        let dateFormat = DateFormatter()
         dateFormat.dateFormat = "eee MMM dd HH:mm:ss ZZZZ yyyy"
         statusJSON = json
         //id = json["id"]!.integer!
-        id_str = json["id_str"]!.string!
-        text = json["text"]!.string!
-        user_screenname = json["user"]!["screen_name"].string!
-        if json["entities"]?["media"][0]["type"].string == "photo" {
-            if let media_url = json["entities"]!["media"][0]["media_url"].string {
-                media = NSData.init(contentsOfURL: NSURL(string: media_url)!)
+        id_str = json["id_str"].string!
+        text = json["text"].string!
+        user_screenname = json["user"]["screen_name"].string!
+        if json["entities"]["media"][0]["type"].string == "photo" {
+            if let media_url = json["entities"]["media"][0]["media_url"].string {
+                media = try? Data.init(contentsOf: URL(string: media_url)!)
             }
         }
-        if let profile_image_url = json["user"]?["profile_image_url_https"].string{
-            icon = NSData.init(contentsOfURL: NSURL(string: profile_image_url)!)!
+        if let profile_image_url = json["user"]["profile_image_url_https"].string{
+            icon = try! Data.init(contentsOf: URL(string: profile_image_url)!)
         }
-        created_at = dateFormat.dateFromString(json["created_at"]!.string!)
+        created_at = dateFormat.date(from: json["created_at"].string!)
     }
 }
